@@ -88,6 +88,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import { add_weeks,getFullDate } from './helpers/basics'
 import calendar from './components/calendar.vue'
 export default {
   name: 'App',
@@ -141,6 +142,10 @@ export default {
     },
     onSubmit () {
       this.modal=false
+      if(this.group == 'r'){
+        this.addRecursiveEvento(this.evento.intervalo,this.evento.inicio.dia,this.evento.fim.dia,this.evento)
+        return 
+      }
       this.eventCollections.push(
         { start: `${this.evento.inicio.dia+' '+this.evento.inicio.hora}`, 
           end: `${this.evento.fim.dia+' '+this.evento.fim.hora}`, 
@@ -166,6 +171,30 @@ export default {
         },
         repetir: false,
         intervalo: 0
+      }
+    },
+    addRecursiveEvento (iterate,inicio,fim,obj) {
+      if(iterate>0){
+        let i = add_weeks(new Date(inicio),1)
+        let f = add_weeks(new Date(fim),1)
+        i = getFullDate(i)[0]
+        f = getFullDate(f)[0]
+        this.eventCollections.push(
+        { start: `${i+' '+obj.inicio.hora}`, 
+          end: `${f+' '+obj.fim.hora}`, 
+          title: `${obj.nome}`, 
+          content:`${obj.descricao}`,
+          class: 'leisure' 
+        })
+        this.addRecursiveEvento(iterate-1,i,f,obj)
+      }else{
+        this.eventCollections.push(
+        { start: `${this.evento.inicio.dia+' '+this.evento.inicio.hora}`, 
+          end: `${this.evento.fim.dia+' '+this.evento.fim.hora}`, 
+          title: `${this.evento.nome}`, 
+          content:`${this.evento.descricao}`,
+          class: 'leisure' 
+        })
       }
     }
   },
