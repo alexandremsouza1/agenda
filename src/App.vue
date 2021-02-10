@@ -18,7 +18,7 @@
 
                <q-input
                 filled
-                v-model="evento.desc"
+                v-model="evento.descricao"
                 label="Descrição *"
                 lazy-rules
                 :rules="[ val => val && val.length > 0 || 'Please type something']"
@@ -102,7 +102,6 @@ export default {
         { label: 'Não se repete', value: 'n' },
         { label: 'Repetir', value: 'r' }
       ],
-      copy: {},
       evento: {
         nome: '',
         descricao: '',
@@ -116,31 +115,14 @@ export default {
           hora: ''
         },
         repetir: false,
-        intervalo: 1
-      }
+        intervalo: 1,
+      },
+      eventCollections: []
     }
   },
   computed: {
-    eventCollections: function(){
-      return [
-        {
-          start: '2021-02-09 10:00',
-          end: '2021-02-10 11:00',
-          title: 'Need to go shopping',
-          content: '<i class="v-icon material-icons">shopping_cart</i>',
-          class: 'leisure'
-        },
-        {
-          start: '2021-02-15 10:00',
-          end: '2021-02-15 12:00',
-          title: 'Golf with John',
-          content: '<i class="v-icon material-icons">golf_course</i>',
-          class: 'leisure'
-        }
-      ]
-    },
   ...mapGetters({
-      teste: 'evento/evento'
+      obj: 'evento/evento'
     })
   },
   methods: {
@@ -158,9 +140,15 @@ export default {
       return val
     },
     onSubmit () {
-      this.prepareEvent()
-      this.$store.dispatch('evento/saveEvt',this.copy)
       this.modal=false
+      this.eventCollections.push(
+        { start: `${this.evento.inicio.dia+' '+this.evento.inicio.hora}`, 
+          end: `${this.evento.fim.dia+' '+this.evento.fim.hora}`, 
+          title: `${this.evento.nome}`, 
+          content:`${this.evento.descricao}`,
+          class: 'leisure' 
+        })
+      this.$store.dispatch('evento/saveEvt',this.eventCollections)  
       this.onReset()
     },
     onReset () {
@@ -178,15 +166,6 @@ export default {
         },
         repetir: false,
         intervalo: 0
-      }
-    },
-    prepareEvent () {
-      this.copy = {
-          start: this.evento.inicio.dia+' '+this.evento.inicio.hora,
-          end: this.evento.fim.dia+' '+this.evento.fim.hora,
-          title: this.evento.nome,
-          content: this.evento.descricao,
-          class: 'blue-event'
       }
     }
   },

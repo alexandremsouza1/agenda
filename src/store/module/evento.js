@@ -12,7 +12,7 @@ export default {
   // mutations
   mutations: {
     SET_EVT (state, json) {
-      state.eventos.push(json)
+      state.eventos = json
     }
   },
   // actions
