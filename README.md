@@ -22,5 +22,10 @@ npm run lint
 quasar build
 ```
 
+### Run to Jest tests
+
+npm run test:unit
+npm run test:unit:coverage
+
 ### Customize the configuration
 See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
