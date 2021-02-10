@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/alexandremsouza1/agenda.svg?branch=master)](https://travis-ci.org/alexandremsouza1/agenda)
+
 # Agenda App (agenda)
 
 Agenda GoatMe
