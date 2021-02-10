@@ -1,6 +1,6 @@
 <template>
   <div id="q-app">
-    <calendar></calendar>
+    <calendar :events="eventCollections"></calendar>
     <q-dialog v-model="modal">
       <div class="q-pa-md background" style="max-width: 80%">
         <q-form
@@ -87,6 +87,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import calendar from './components/calendar.vue'
 export default {
   name: 'App',
@@ -101,6 +102,7 @@ export default {
         { label: 'Não se repete', value: 'n' },
         { label: 'Repetir', value: 'r' }
       ],
+      copy: {},
       evento: {
         nome: '',
         descricao: '',
@@ -118,18 +120,46 @@ export default {
       }
     }
   },
+  computed: {
+    eventCollections: function(){
+      return [
+        {
+          start: '2021-02-09 10:00',
+          end: '2021-02-10 11:00',
+          title: 'Need to go shopping',
+          content: '<i class="v-icon material-icons">shopping_cart</i>',
+          class: 'leisure'
+        },
+        {
+          start: '2021-02-15 10:00',
+          end: '2021-02-15 12:00',
+          title: 'Golf with John',
+          content: '<i class="v-icon material-icons">golf_course</i>',
+          class: 'leisure'
+        }
+      ]
+    },
+  ...mapGetters({
+      teste: 'evento/evento'
+    })
+  },
   methods: {
     callModal () {
       this.modal = !this.modal
     },
     getFormatDate (val) {
-      if (val.length === 1) {
-        val = '0' + val
+      try{
+        if (val.toString().length === 1) {
+          val = '0' + val
+        }
+      }catch(e){
+        return val
       }
       return val
     },
     onSubmit () {
-      this.$store.dispatch('evento/saveEvt',this.evento)
+      this.prepareEvent()
+      this.$store.dispatch('evento/saveEvt',this.copy)
       this.modal=false
       this.onReset()
     },
@@ -149,9 +179,18 @@ export default {
         repetir: false,
         intervalo: 0
       }
+    },
+    prepareEvent () {
+      this.copy = {
+          start: this.evento.inicio.dia+' '+this.evento.inicio.hora,
+          end: this.evento.fim.dia+' '+this.evento.fim.hora,
+          title: this.evento.nome,
+          content: this.evento.descricao,
+          class: 'blue-event'
+      }
     }
   },
-  mounted: function () {
+  created : function () {
     const d = new Date()
     const date = [
       d.getFullYear(),
@@ -166,10 +205,8 @@ export default {
   }
 }
 </script>
-<style lang="sass" scoped>
-.background
+<style lang="scss">
+.background {
   background: white
-
-.border
-  border: 1px solid rgba(0,0,0,0.12)
+}
 </style>

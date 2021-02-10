@@ -12,7 +12,6 @@ export default {
   // mutations
   mutations: {
     SET_EVT (state, json) {
-      debugger
       state.eventos.push(json)
     }
   },
