@@ -13,3 +13,6 @@ cache:
 script:
   - "npm run test:unit"
   - "npm run test:unit:coverage"
+
+after-script:
+  - cat ./coverage/lcov.info | coveralls
