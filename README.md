@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/alexandremsouza1/agenda.svg?branch=master)](https://travis-ci.org/alexandremsouza1/agenda)
 
+[![Coverage Status](https://coveralls.io/repos/github/alexandremsouza1/agenda/badge.svg?branch=master)](https://coveralls.io/github/alexandremsouza1/agenda?branch=master)
+
 # Agenda App (agenda)
 
 Agenda GoatMe
