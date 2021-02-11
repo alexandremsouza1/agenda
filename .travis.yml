@@ -8,7 +8,8 @@ cache:
 
 script:
   - "npm run test:unit"
-  - "npm run test:unit:coverage"
+  - "npm run test:unit:coveralls"
 
-after_script:
-  - cat ./jest/coverage/lcov-report | coveralls
+notifications:
+  # Turn off email notifications entirely.
+  email: false
