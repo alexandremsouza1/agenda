@@ -204,7 +204,7 @@ export default {
       api.post("events", null, { params: 
         evt
       })
-      .then((response) => console.log('certinho'))
+      .then((response) => {/*console.log('certinho')*/})
       .catch((err) => {
         console.error("ops! ocorreu um erro" + err);
      });

@@ -2,7 +2,10 @@ import { shallowMount, createLocalVue } from '@vue/test-utils'
 import App from "../../../src/App.vue";
 import store from '../../../src/store'
 const localVue = createLocalVue()
-
+jest.mock('boot/axios');
+import { api } from 'boot/axios'
+const data = {};
+api.post.mockImplementationOnce(() => Promise.resolve(data));
 
 describe("App test", () => {
   it("should is Vue instance", () => {

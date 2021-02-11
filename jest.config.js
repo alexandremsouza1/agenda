@@ -1,5 +1,6 @@
 const esModules = ['quasar/lang', 'lodash-es'].join('|');
-
+const { pathsToModuleNameMapper } = require('ts-jest/utils')
+const { compilerOptions } = require('./jsconfig.json')
 module.exports = {
   globals: {
     __DEV__: true,
@@ -37,6 +38,9 @@ module.exports = {
   ],
   moduleFileExtensions: ['vue', 'js', 'jsx', 'json'],
   moduleNameMapper: {
+    ...pathsToModuleNameMapper(compilerOptions.paths, {
+      prefix: '<rootDir>/'
+    }),
     '^vue$': 'vue/dist/vue.common.js',
     '^test-utils$': '@vue/test-utils/dist/vue-test-utils.js',
     '^quasar$': 'quasar/dist/quasar.common.js',

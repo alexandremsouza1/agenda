@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Quasar from 'quasar';
 import Vuex from 'vuex'
 
-require("src/boot/axios");
 
 Vue.config.productionTip = false;
 Vue.use(Quasar);
