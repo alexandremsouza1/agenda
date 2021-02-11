@@ -88,6 +88,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import { api } from 'boot/axios'
 import { add_weeks,getFullDate } from './helpers/basics'
 import calendar from './components/calendar.vue'
 export default {
@@ -141,18 +142,20 @@ export default {
       return val
     },
     onSubmit () {
+      let evt = { 
+          start: `${this.evento.inicio.dia+' '+this.evento.inicio.hora}`, 
+          end: `${this.evento.fim.dia+' '+this.evento.fim.hora}`, 
+          title: `${this.evento.nome}`, 
+          content:`${this.evento.descricao}`,
+          class: 'leisure' 
+      }
       this.modal=false
       if(this.group == 'r'){
         this.addRecursiveEvento(this.evento.intervalo,this.evento.inicio.dia,this.evento.fim.dia,this.evento)
         return 
       }
-      this.eventCollections.push(
-        { start: `${this.evento.inicio.dia+' '+this.evento.inicio.hora}`, 
-          end: `${this.evento.fim.dia+' '+this.evento.fim.hora}`, 
-          title: `${this.evento.nome}`, 
-          content:`${this.evento.descricao}`,
-          class: 'leisure' 
-        })
+      this.eventCollections.push(evt)
+      this.save(evt)
       this.$store.dispatch('evento/saveEvt',this.eventCollections)  
       this.onReset()
     },
@@ -196,6 +199,15 @@ export default {
           class: 'leisure' 
         })
       }
+    },
+    save (evt){
+      api.post("events", null, { params: 
+        evt
+      })
+      .then((response) => console.log('certinho'))
+      .catch((err) => {
+        console.error("ops! ocorreu um erro" + err);
+     });
     }
   },
   created : function () {
